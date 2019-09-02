@@ -33,9 +33,21 @@ public class Duke {
                     userTask[taskNum] = new ToDos(words[1]);
                 } else if (words[0].equals("deadline")) {
                     String[] holder = words[1].split(" /by", 2);
+                    if (holder.length < 2) {
+                        System.out.println(DukeException.invalidInput());
+                        System.out.println("----------------------");
+                        userInput = input.nextLine();
+                        continue;
+                    }
                     userTask[taskNum] = new Deadline(holder[0], holder[1]);
                 } else if (words[0].equals("event")) {
                     String[] holder = words[1].split(" /at", 2);
+                    if (holder.length < 2) {
+                        System.out.println(DukeException.invalidInput());
+                        System.out.println("----------------------");
+                        userInput = input.nextLine();
+                        continue;
+                    }
                     userTask[taskNum] = new Event(holder[0], holder[1]);
                 } else {
                     System.out.println(DukeException.unknownInput());
