@@ -21,12 +21,12 @@ public class Duke {
 
             if (userInput.equals("list")) {
                 for (int i = 0; i < taskNum; i++)
-                    System.out.printf("%d. %s\n", i + 1, userTask[i].getTask());
+                    System.out.printf("%d. %s\n", i + 1, userTask[i]);
             } else if (words[0].equals("done")) {
                 int num = Integer.parseInt(words[1]) - 1;
                 userTask[num] = userTask[num].markAsDone();
                 System.out.printf("Nice! I've marked this task as done:\n" +
-                        "%s", userTask[num].getTask());
+                        "%s\n", userTask[num]);
             } else {
 
                 if (words[0].equals("todo")) {
@@ -37,10 +37,12 @@ public class Duke {
                 } else if (words[0].equals("event")) {
                     String[] holder = words[1].split(" /at", 2);
                     userTask[taskNum] = new Event(holder[0], holder[1]);
+                } else {
+                    userTask[taskNum] = new Task(userInput);
                 }
 
                 // userTask[taskNum] = new Task(userInput);
-                System.out.println("Got it. I've added this task:\n" + userTask[taskNum].getTask());
+                System.out.println("Got it. I've added this task:\n" + userTask[taskNum]);
                 System.out.printf("Now you have %d %s in the list.\n", taskNum + 1,
                         ((taskNum >= 1)? "tasks" : "task"));
                 taskNum++;
