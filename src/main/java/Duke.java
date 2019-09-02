@@ -14,16 +14,25 @@ public class Duke {
         Scanner input = new Scanner(System.in);
         String userInput = input.nextLine();
 
-        String[] userTask = new String[100];
+        Task[] userTask = new Task[100];
         int taskNum = 0;
         while (!userInput.equals("bye")) {
+            String[] words = userInput.split(" ", 2);
+            
             if (userInput.equals("list")) {
                 for (int i = 0; i < taskNum; i++) {
-                    System.out.printf("%d. %s\n", i + 1, userTask[i]);
+                    if (userTask[i].getStatus())
+                        System.out.printf("[✓]%d. %s\n", i + 1, userTask[i].getTask());
+                    else
+                        System.out.printf("[✗]%d. %s\n", i + 1, userTask[i].getTask());
                 }
-            }
-            else {
-                userTask[taskNum] = userInput;
+            } else if (words[0].equals("done")) {
+                int num = Integer.parseInt(words[1]) - 1;
+                userTask[num] = userTask[num].markAsDone();
+                System.out.printf("Nice! I've marked this task as done:\n" +
+                        "[✓] %s\n", userTask[num].getTask());
+            } else {
+                userTask[taskNum] = new Task(userInput);
                 taskNum++;
                 System.out.println("added: " + userInput);
             }
