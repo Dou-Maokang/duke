@@ -38,7 +38,10 @@ public class Duke {
                     String[] holder = words[1].split(" /at", 2);
                     userTask[taskNum] = new Event(holder[0], holder[1]);
                 } else {
-                    userTask[taskNum] = new Task(userInput);
+                    System.out.println(DukeException.unknownInput());
+                    System.out.println("----------------------");
+                    userInput = input.nextLine();
+                    continue;
                 }
 
                 // userTask[taskNum] = new Task(userInput);
