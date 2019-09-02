@@ -18,29 +18,37 @@ public class Duke {
         int taskNum = 0;
         while (!userInput.equals("bye")) {
             String[] words = userInput.split(" ", 2);
-            
+
             if (userInput.equals("list")) {
-                for (int i = 0; i < taskNum; i++) {
-                    if (userTask[i].getStatus())
-                        System.out.printf("[✓]%d. %s\n", i + 1, userTask[i].getTask());
-                    else
-                        System.out.printf("[✗]%d. %s\n", i + 1, userTask[i].getTask());
-                }
+                for (int i = 0; i < taskNum; i++)
+                    System.out.printf("%d. %s\n", i + 1, userTask[i].getTask());
             } else if (words[0].equals("done")) {
                 int num = Integer.parseInt(words[1]) - 1;
                 userTask[num] = userTask[num].markAsDone();
                 System.out.printf("Nice! I've marked this task as done:\n" +
-                        "[✓] %s\n", userTask[num].getTask());
+                        "%s", userTask[num].getTask());
             } else {
-                userTask[taskNum] = new Task(userInput);
+
+                if (words[0].equals("todo")) {
+                    userTask[taskNum] = new ToDos(words[1]);
+                } else if (words[0].equals("deadline")) {
+                    String[] holder = words[1].split(" /by", 2);
+                    userTask[taskNum] = new Deadline(holder[0], holder[1]);
+                } else if (words[0].equals("event")) {
+                    String[] holder = words[1].split(" /at", 2);
+                    userTask[taskNum] = new Event(holder[0], holder[1]);
+                }
+
+                // userTask[taskNum] = new Task(userInput);
+                System.out.println("Got it. I've added this task:\n" + userTask[taskNum].getTask());
+                System.out.printf("Now you have %d %s in the list.\n", taskNum + 1,
+                        ((taskNum >= 1)? "tasks" : "task"));
                 taskNum++;
-                System.out.println("added: " + userInput);
             }
             System.out.println("----------------------");
             userInput = input.nextLine();
         }
         System.out.println("Bye. Hope to see you again soon!");
         System.out.println("----------------------");
-
     }
 }
