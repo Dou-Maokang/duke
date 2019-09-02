@@ -14,8 +14,19 @@ public class Duke {
         Scanner input = new Scanner(System.in);
         String userInput = input.nextLine();
 
+        String[] userTask = new String[100];
+        int taskNum = 0;
         while (!userInput.equals("bye")) {
-            System.out.println(userInput);
+            if (userInput.equals("list")) {
+                for (int i = 0; i < taskNum; i++) {
+                    System.out.printf("%d. %s\n", i + 1, userTask[i]);
+                }
+            }
+            else {
+                userTask[taskNum] = userInput;
+                taskNum++;
+                System.out.println("added: " + userInput);
+            }
             System.out.println("----------------------");
             userInput = input.nextLine();
         }
