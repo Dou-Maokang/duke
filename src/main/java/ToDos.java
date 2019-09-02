@@ -5,7 +5,7 @@ public class ToDos extends Task{
     }
 
     @Override
-    public String getTask() {
+    public String toString() {
         if (this.getStatus())
             return "[T]" + "[✓]" + super.description;
         else

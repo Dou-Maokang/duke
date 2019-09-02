@@ -8,7 +8,7 @@ public class Event extends Task {
     }
 
     @Override
-    public String getTask() {
+    public String toString() {
         if (this.getStatus())
             return "[E]" + "[✓]" + super.description + " (at: " + time + ")" ;
         else

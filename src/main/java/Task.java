@@ -13,7 +13,8 @@ public class Task {
         this.isDone = isDone;
     }
 
-    public String getTask() {
+    @Override
+    public String toString() {
         if (this.getStatus())
             return "[✓]" + this.description;
         else

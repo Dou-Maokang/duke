@@ -7,7 +7,7 @@ public class Deadline extends Task{
     }
 
     @Override
-    public String getTask() {
+    public String toString() {
         if (this.getStatus())
             return ("[D]" + "[✓]" + super.description + " (by: " + deadline + ")");
         else
