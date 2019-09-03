@@ -15,9 +15,9 @@ public class Event extends Task {
     @Override
     public String toString() {
         if (this.getStatus())
-            return "[E]" + "[✓]" + super.description + " (at: " + time + ")" ;
+            return "[E]" + "[✓]" + super.description + " (at:" + time + ")" ;
         else
-            return "[E]" + "[✗]" + super.description + " (at: " + time + ")" ;
+            return "[E]" + "[✗]" + super.description + " (at:" + time + ")" ;
     }
 
     @Override
