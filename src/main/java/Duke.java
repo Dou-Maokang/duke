@@ -1,11 +1,16 @@
 import java.util.*;
 import java.io.*;
 
+import java.text.*;
+import java.util.ArrayList;
+
 public class Duke {
     private static File dukeText = new File("./dukeTaskList.txt");
     private static InputStream is;
     private static OutputStream os;
     private static ArrayList<Task> taskList = new ArrayList<Task>();
+    private static SimpleDateFormat ft = new SimpleDateFormat("dd/MM/yyyy hhmm");
+    private static SimpleDateFormat rt = new SimpleDateFormat("EEE MMM d HH:mm:ss z yyyy");
 
 
     public static void main(String[] args) {
@@ -35,6 +40,12 @@ public class Duke {
                 taskList.set(num, taskList.get(num).markAsDone());
                 System.out.printf("Nice! I've marked this task as done:\n" +
                         "%s\n", taskList.get(num));
+            } else if (words[0].equals("delete")) {
+                int num = Integer.parseInt(words[1]) - 1;
+                String taskStr = taskList.get(num).toString();
+                taskList.remove(num);
+                System.out.printf("Noted. I've removed this task:\n" +
+                        "%s\n", taskStr);
             } else {
 
                 if (words[0].equals("todo")) {
@@ -47,7 +58,17 @@ public class Duke {
                         userInput = input.nextLine();
                         continue;
                     }
-                    taskList.add(new Deadline(holder[0], holder[1]));
+                    try {
+                        taskList.add(new Deadline(holder[0], ft.parse(holder[1])));
+                    } catch (ParseException e) {
+                        System.out.println("☹ OOPS!!! Please enter time in right format: dd/MM/yyyy hhmm");
+                        userInput = input.nextLine();
+                        continue;
+                    } catch (IndexOutOfBoundsException e) {
+                        System.out.println("☹ OOPS!!! The index of task is out of range.");
+                        userInput = input.nextLine();
+                        continue;
+                    }
                 } else if (words[0].equals("event")) {
                     String[] holder = words[1].split(" /at", 2);
                     if (holder.length < 2) {
@@ -56,7 +77,17 @@ public class Duke {
                         userInput = input.nextLine();
                         continue;
                     }
-                    taskList.add(new Event(holder[0], holder[1]));
+                    try {
+                        taskList.add(new Event(holder[0], ft.parse(holder[1])));
+                    } catch (ParseException e) {
+                        System.out.println("☹ OOPS!!! Please enter time in right format: dd/MM/yyyy hhmm");
+                        userInput = input.nextLine();
+                        continue;
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        System.out.println("☹ OOPS!!! The index of task is out of range.");
+                        userInput = input.nextLine();
+                        continue;
+                    }
                 } else {
                     System.out.println(DukeException.unknownInput());
                     System.out.println("----------------------");
@@ -65,9 +96,11 @@ public class Duke {
                 }
 
                 // userTask[taskNum] = new Task(userInput);
+
                 System.out.println("Got it. I've added this task:\n" + taskList.get(taskList.size() - 1));
                 System.out.printf("Now you have %d %s in the list.\n", taskList.size(),
-                        ((taskList.size() > 1)? "tasks" : "task"));
+                        ((taskList.size() > 1) ? "tasks" : "task"));
+
 
             }
             System.out.println("----------------------");
@@ -97,12 +130,12 @@ public class Duke {
                         taskList.set(taskList.size() - 1, taskList.get(taskList.size() - 1).markAsDone());
                 }
                 else if (words[0].equals("deadline")) {
-                    taskList.add(new Deadline(words[2], words[3]));
+                    taskList.add(new Deadline(words[2], rt.parse(words[3])));
                     if (words[1].equals("1"))
                         taskList.set(taskList.size() - 1, taskList.get(taskList.size() - 1).markAsDone());
                 }
                 else if (words[0].equals("event")) {
-                    taskList.add(new Event(words[2], words[3]));
+                    taskList.add(new Event(words[2], rt.parse(words[3])));
                     if (words[1].equals("1"))
                         taskList.set(taskList.size() - 1, taskList.get(taskList.size() - 1).markAsDone());
                 }
@@ -124,10 +157,11 @@ public class Duke {
         int isDone;
         int indexOfDescriptionFront;
         int indexOfDescriptionBack;
-        int indexOfDeadline;
+
 
         for (int i = 0; i < taskList.size();i++) {
             String taskStr = taskList.get(i).toString();
+
 
 
             if (taskStr.contains(("[✓]")))
@@ -141,17 +175,17 @@ public class Duke {
 
                 indexOfDescriptionFront = taskStr.lastIndexOf("]") + 1;
                 indexOfDescriptionBack = taskStr.indexOf("(by");
-                indexOfDeadline = taskStr.indexOf("(by: ");
-                output += "deadline|" + isDone + ";" +
+
+
+                output += "deadline;" + isDone + ";" +
                         taskStr.substring(indexOfDescriptionFront, indexOfDescriptionBack - 1) +
-                        ";" + taskStr.substring(indexOfDeadline + 5, taskStr.length() - 1) + "\n";
+                        ";" + taskStr.substring(indexOfDescriptionBack + 4, taskStr.length() - 1) + "\n";
             } else if (taskStr.contains("[E]")) {
                 indexOfDescriptionFront = taskStr.lastIndexOf("]") + 1;
                 indexOfDescriptionBack = taskStr.indexOf("(at");
-                indexOfDeadline = taskStr.indexOf("(at: ");
                 output += "event;" + isDone + ";" +
                         taskStr.substring(indexOfDescriptionFront, indexOfDescriptionBack - 1) +
-                        ";" + taskStr.substring(indexOfDeadline + 5, taskStr.length() - 1) + "\n";
+                        ";" + taskStr.substring(indexOfDescriptionBack + 4, taskStr.length() - 1) + "\n";
             }
 
         }

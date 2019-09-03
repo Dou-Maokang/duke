@@ -1,3 +1,2 @@
-todo;1;read a book
-deadline|0;submit work;today
-event;0;attend workshop;✗]attend workshop (at: 7pm
+deadline;1;submit;Fri Jan 01 10:00:00 SGT 2010
+todo;1;wash clothes

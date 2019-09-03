@@ -1,13 +1,15 @@
+import java.util.Date;
+
 public class Deadline extends Task{
 
-    private String deadline;
+    private Date deadline;
 
-    public Deadline(String description, String deadline) {
+    public Deadline(String description, Date deadline) {
         super(description);
         this.deadline = deadline;
     }
 
-    public Deadline(String description, String deadline, boolean isDone) {
+    public Deadline(String description, Date deadline, boolean isDone) {
         super(description, isDone);
         this.deadline = deadline;
     }

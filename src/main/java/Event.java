@@ -1,13 +1,15 @@
+import java.util.Date;
+
 public class Event extends Task {
 
-    private String time;
+    private Date time;
 
-    public Event(String description, String time) {
+    public Event(String description, Date time) {
         super(description);
         this.time = time;
     }
 
-    public Event(String description, String time, boolean isDone) {
+    public Event(String description, Date time, boolean isDone) {
         super(description, isDone);
         this.time = time;
     }
