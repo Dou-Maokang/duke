@@ -1,2 +1,3 @@
 deadline;1;submit;Fri Jan 01 10:00:00 SGT 2010
 todo;1;wash clothes
+event;0;submit homework;Wed Jan 01 10:00:00 SGT 2020

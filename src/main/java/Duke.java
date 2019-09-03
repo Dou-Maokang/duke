@@ -46,6 +46,15 @@ public class Duke {
                 taskList.remove(num);
                 System.out.printf("Noted. I've removed this task:\n" +
                         "%s\n", taskStr);
+            } else if (words[0].equals("find")) {
+                String taskStr = null;
+                int num = 1;
+                for (int i = 0; i < taskList.size(); i++) {
+                    taskStr = taskList.get(i).toString();
+                    if (taskStr.contains(words[1])) {
+                        System.out.printf("%d. %s\n", num++, taskList.get(i));
+                    }
+                }
             } else {
 
                 if (words[0].equals("todo")) {
