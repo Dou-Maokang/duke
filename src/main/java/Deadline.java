@@ -17,9 +17,9 @@ public class Deadline extends Task{
     @Override
     public String toString() {
         if (this.getStatus())
-            return ("[D]" + "[✓]" + super.description + " (by:" + deadline + ")");
+            return ("[D]" + "[v]" + super.description + " (by:" + deadline + ")");
         else
-            return ("[D]" + "[✗]" + super.description + " (by:" + deadline + ")");
+            return ("[D]" + "[x]" + super.description + " (by:" + deadline + ")");
     }
 
     @Override

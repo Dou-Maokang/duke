@@ -1,0 +1,6 @@
+deadline submit work /by 01/01/2020 1000
+todo read a book
+done 1
+delete 1
+delete 1
+bye

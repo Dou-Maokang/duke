@@ -16,9 +16,9 @@ public class Task {
     @Override
     public String toString() {
         if (this.getStatus())
-            return "[✓]" + this.description;
+            return "[v]" + this.description;
         else
-            return "[✗]" + this.description;
+            return "[x]" + this.description;
     }
 
     public boolean getStatus() {

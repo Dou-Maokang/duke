@@ -1,11 +1,10 @@
 import java.util.*;
 import java.io.*;
-
 import java.text.*;
 import java.util.ArrayList;
 
 public class Duke {
-    private static File dukeText = new File("./dukeTaskList.txt");
+    private static File dukeText = new File("dukeTaskList.txt");
     private static InputStream is;
     private static OutputStream os;
     private static ArrayList<Task> taskList = new ArrayList<Task>();
@@ -37,15 +36,27 @@ public class Duke {
                     System.out.printf("%d. %s\n", i + 1, taskList.get(i));
             } else if (words[0].equals("done")) {
                 int num = Integer.parseInt(words[1]) - 1;
-                taskList.set(num, taskList.get(num).markAsDone());
-                System.out.printf("Nice! I've marked this task as done:\n" +
-                        "%s\n", taskList.get(num));
+                try {
+                    taskList.set(num, taskList.get(num).markAsDone());
+                    System.out.printf("Nice! I've marked this task as done:\n" +
+                            "%s\n", taskList.get(num));
+                } catch (IndexOutOfBoundsException e) {
+                    System.out.println("OOPS!!! The index of task is out of range.");
+                    userInput = input.nextLine();
+                    continue;
+                }
             } else if (words[0].equals("delete")) {
                 int num = Integer.parseInt(words[1]) - 1;
                 String taskStr = taskList.get(num).toString();
-                taskList.remove(num);
-                System.out.printf("Noted. I've removed this task:\n" +
-                        "%s\n", taskStr);
+                try {
+                    taskList.remove(num);
+                    System.out.printf("Noted. I've removed this task:\n" +
+                            "%s\n", taskStr);
+                } catch (IndexOutOfBoundsException e) {
+                    System.out.println("OOPS!!! The index of task is out of range.");
+                    userInput = input.nextLine();
+                    continue;
+                }
             } else if (words[0].equals("find")) {
                 String taskStr = null;
                 int num = 1;
@@ -70,11 +81,11 @@ public class Duke {
                     try {
                         taskList.add(new Deadline(holder[0], ft.parse(holder[1])));
                     } catch (ParseException e) {
-                        System.out.println("☹ OOPS!!! Please enter time in right format: dd/MM/yyyy hhmm");
+                        System.out.println("OOPS!!! Please enter time in right format: dd/MM/yyyy hhmm");
                         userInput = input.nextLine();
                         continue;
                     } catch (IndexOutOfBoundsException e) {
-                        System.out.println("☹ OOPS!!! The index of task is out of range.");
+                        System.out.println("OOPS!!! The index of task is out of range.");
                         userInput = input.nextLine();
                         continue;
                     }
@@ -89,11 +100,11 @@ public class Duke {
                     try {
                         taskList.add(new Event(holder[0], ft.parse(holder[1])));
                     } catch (ParseException e) {
-                        System.out.println("☹ OOPS!!! Please enter time in right format: dd/MM/yyyy hhmm");
+                        System.out.println("OOPS!!! Please enter time in right format: dd/MM/yyyy hhmm");
                         userInput = input.nextLine();
                         continue;
                     } catch (ArrayIndexOutOfBoundsException e) {
-                        System.out.println("☹ OOPS!!! The index of task is out of range.");
+                        System.out.println("OOPS!!! The index of task is out of range.");
                         userInput = input.nextLine();
                         continue;
                     }
@@ -173,7 +184,7 @@ public class Duke {
 
 
 
-            if (taskStr.contains(("[✓]")))
+            if (taskStr.contains(("[v]")))
                 isDone = 1;
             else
                 isDone = 0;

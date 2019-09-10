@@ -11,9 +11,9 @@ public class ToDos extends Task{
     @Override
     public String toString() {
         if (this.getStatus())
-            return "[T]" + "[✓]" + super.description;
+            return "[T]" + "[v]" + super.description;
         else
-            return "[T]" + "[✗]" + super.description;
+            return "[T]" + "[x]" + super.description;
     }
 
     @Override
