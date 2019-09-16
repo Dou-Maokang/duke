@@ -17,4 +17,6 @@ public class Ui {
     public static void drawLine() {
         System.out.println("__________________________________________________________________");
     }
+
+
 }
