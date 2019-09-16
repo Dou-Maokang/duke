@@ -12,8 +12,12 @@ public class TaskList {
     }
 
     public void getList() {
-        for (int i = 0; i < taskList.size(); i++)
-            System.out.printf("%d. %s\n", i + 1, taskList.get(i));
+        if (taskList.size() == 0) {
+            System.out.println("The current list is empty!");
+        } else {
+            for (int i = 0; i < taskList.size(); i++)
+                System.out.printf("%d. %s\n", i + 1, taskList.get(i));
+        }
     }
 
     public int countTask() {
@@ -30,9 +34,14 @@ public class TaskList {
 
     public int finishTask(int num) {
         try {
-            taskList.set(num, taskList.get(num).markAsDone());
-            System.out.printf("Nice! I've marked this task as done:\n" +
-                    "%s\n", taskList.get(num));
+            if (taskList.get(num).isDone) {
+                System.out.println("This task is already finished!");
+                return -1;
+            }
+            else {
+                taskList.set(num, taskList.get(num).markAsDone());
+            }
+
         } catch (IndexOutOfBoundsException e) {
             System.out.println("OOPS!!! The index of task is out of range.");
             return -1;
@@ -41,8 +50,8 @@ public class TaskList {
     }
 
     public int deleteTask(int num) {
-        String taskStr = taskList.get(num).toString();
         try {
+            String taskStr = taskList.get(num).toString();
             taskList.remove(num);
             System.out.printf("Noted. I've removed this task:\n" +
                     "%s\n", taskStr);

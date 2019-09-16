@@ -1,7 +1,5 @@
 import java.util.*;
-import java.io.*;
 import java.text.*;
-import java.util.ArrayList;
 
 public class Duke {
     private static TaskList taskList= new TaskList();
@@ -33,13 +31,22 @@ public class Duke {
 
             } else if (words[0].equals("done")) {
                 int num = Integer.parseInt(words[1]) - 1;
-                if (taskList.finishTask(num) == -1)
+                if (taskList.finishTask(num) == -1) {
+                    userInput = input.nextLine();
                     continue;
+                }
+                else {
+                    System.out.printf("Nice! I've marked this task as done:\n" +
+                            "%s\n", taskList.getTask(num));
+                }
 
             } else if (words[0].equals("delete")) {
                 int num = Integer.parseInt(words[1]) - 1;
-                if (taskList.deleteTask(num) == -1)
+                if (taskList.deleteTask(num) == -1) {
+                    userInput = input.nextLine();
                     continue;
+                }
+
 
             } else if (words[0].equals("find")) {
                 taskList.findTask(words[0]);
