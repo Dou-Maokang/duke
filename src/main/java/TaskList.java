@@ -26,9 +26,6 @@ public class TaskList {
 
     public void addTask(Task newTask) {
         taskList.add(newTask);
-        System.out.println("Got it. I've added this task:\n" + taskList.get(taskList.size() - 1));
-        System.out.printf("Now you have %d %s in the list.\n", taskList.size(),
-                ((taskList.size() > 1) ? "tasks" : "task"));
     }
 
     public int finishTask(int num) {
