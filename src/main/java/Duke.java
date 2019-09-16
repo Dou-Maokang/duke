@@ -49,7 +49,7 @@ public class Duke {
 
 
             } else if (words[0].equals("find")) {
-                taskList.findTask(words[0]);
+                taskList.findTask(words[1]);
 
             } else {
 
