@@ -8,14 +8,7 @@ public class Duke {
 
 
     public static void main(String[] args) {
-        String logo = " ____        _        \n"
-                + "|  _ \\ _   _| | _____ \n"
-                + "| | | | | | | |/ / _ \\\n"
-                + "| |_| | |_| |   <  __/\n"
-                + "|____/ \\__,_|_|\\_\\___|\n";
-        System.out.println("Hello from\n" + logo);
-        System.out.println("Hello! I'm Duke");
-        System.out.println("What can I do for you?");
+        Ui.printLogo();
 
         Scanner input = new Scanner(System.in);
         String userInput = input.nextLine();
@@ -59,7 +52,7 @@ public class Duke {
                     String[] holder = words[1].split(" /by", 2);
                     if (holder.length < 2) {
                         System.out.println(DukeException.invalidInput());
-                        System.out.println("----------------------");
+                        Ui.drawLine();
                         userInput = input.nextLine();
                         continue;
                     }
@@ -78,7 +71,7 @@ public class Duke {
                     String[] holder = words[1].split(" /at", 2);
                     if (holder.length < 2) {
                         System.out.println(DukeException.invalidInput());
-                        System.out.println("----------------------");
+                        Ui.drawLine();
                         userInput = input.nextLine();
                         continue;
                     }
@@ -95,7 +88,7 @@ public class Duke {
                     }
                 } else {
                     System.out.println(DukeException.unknownInput());
-                    System.out.println("----------------------");
+                    Ui.drawLine();
                     userInput = input.nextLine();
                     continue;
                 }
@@ -103,11 +96,11 @@ public class Duke {
                 System.out.printf("Now you have %d %s in the list.\n", taskList.countTask(),
                         ((taskList.countTask() > 1) ? "tasks" : "task"));
             }
-            System.out.println("----------------------");
+            Ui.drawLine();
             userInput = input.nextLine();
         }
-        System.out.println("Bye. Hope to see you again soon!");
-        System.out.println("----------------------");
+        Ui.sayGoodbye();
+        Ui.drawLine();
         Storage.saveData(taskList);
     }
 

@@ -63,7 +63,7 @@ public class TaskList {
     }
 
     public void findTask(String keyword) {
-        String taskStr = null;
+        String taskStr;
         int num = 1;
         for (int i = 0; i < taskList.size(); i++) {
             taskStr = taskList.get(i).toString();
