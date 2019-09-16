@@ -7,7 +7,7 @@ public class Duke {
     private static File dukeText = new File("dukeTaskList.txt");
     private static InputStream is;
     private static OutputStream os;
-    private static ArrayList<Task> taskList = new ArrayList<Task>();
+    private static TaskList taskList= new TaskList();
     private static SimpleDateFormat ft = new SimpleDateFormat("dd/MM/yyyy hhmm");
     private static SimpleDateFormat rt = new SimpleDateFormat("EEE MMM d HH:mm:ss z yyyy");
 
@@ -32,44 +32,25 @@ public class Duke {
             String[] words = userInput.split(" ", 2);
 
             if (userInput.equals("list")) {
-                for (int i = 0; i < taskList.size(); i++)
-                    System.out.printf("%d. %s\n", i + 1, taskList.get(i));
+                taskList.getList();
+
             } else if (words[0].equals("done")) {
                 int num = Integer.parseInt(words[1]) - 1;
-                try {
-                    taskList.set(num, taskList.get(num).markAsDone());
-                    System.out.printf("Nice! I've marked this task as done:\n" +
-                            "%s\n", taskList.get(num));
-                } catch (IndexOutOfBoundsException e) {
-                    System.out.println("OOPS!!! The index of task is out of range.");
-                    userInput = input.nextLine();
+                if (taskList.finishTask(num) == -1)
                     continue;
-                }
+
             } else if (words[0].equals("delete")) {
                 int num = Integer.parseInt(words[1]) - 1;
-                String taskStr = taskList.get(num).toString();
-                try {
-                    taskList.remove(num);
-                    System.out.printf("Noted. I've removed this task:\n" +
-                            "%s\n", taskStr);
-                } catch (IndexOutOfBoundsException e) {
-                    System.out.println("OOPS!!! The index of task is out of range.");
-                    userInput = input.nextLine();
+                if (taskList.deleteTask(num) == -1)
                     continue;
-                }
+
             } else if (words[0].equals("find")) {
-                String taskStr = null;
-                int num = 1;
-                for (int i = 0; i < taskList.size(); i++) {
-                    taskStr = taskList.get(i).toString();
-                    if (taskStr.contains(words[1])) {
-                        System.out.printf("%d. %s\n", num++, taskList.get(i));
-                    }
-                }
+                taskList.findTask(words[0]);
+
             } else {
 
                 if (words[0].equals("todo")) {
-                    taskList.add(new ToDos(words[1]));
+                    taskList.addTask(new ToDos(words[1]));
                 } else if (words[0].equals("deadline")) {
                     String[] holder = words[1].split(" /by", 2);
                     if (holder.length < 2) {
@@ -79,7 +60,7 @@ public class Duke {
                         continue;
                     }
                     try {
-                        taskList.add(new Deadline(holder[0], ft.parse(holder[1])));
+                        taskList.addTask(new Deadline(holder[0], ft.parse(holder[1])));
                     } catch (ParseException e) {
                         System.out.println("OOPS!!! Please enter time in right format: dd/MM/yyyy hhmm");
                         userInput = input.nextLine();
@@ -98,7 +79,7 @@ public class Duke {
                         continue;
                     }
                     try {
-                        taskList.add(new Event(holder[0], ft.parse(holder[1])));
+                        taskList.addTask(new Event(holder[0], ft.parse(holder[1])));
                     } catch (ParseException e) {
                         System.out.println("OOPS!!! Please enter time in right format: dd/MM/yyyy hhmm");
                         userInput = input.nextLine();
@@ -114,14 +95,6 @@ public class Duke {
                     userInput = input.nextLine();
                     continue;
                 }
-
-                // userTask[taskNum] = new Task(userInput);
-
-                System.out.println("Got it. I've added this task:\n" + taskList.get(taskList.size() - 1));
-                System.out.printf("Now you have %d %s in the list.\n", taskList.size(),
-                        ((taskList.size() > 1) ? "tasks" : "task"));
-
-
             }
             System.out.println("----------------------");
             userInput = input.nextLine();
@@ -135,7 +108,7 @@ public class Duke {
      * read the data stored in hard disk to taskList</p>
      * @param taskList the array list stores all tasks
      */
-    public static void readData(ArrayList<Task> taskList) {
+    public static void readData(TaskList taskList) {
         try {
             is = new FileInputStream(dukeText);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -145,19 +118,19 @@ public class Duke {
                 String[] words = line.split(";");
 
                 if (words[0].equals("todo")) {
-                    taskList.add(new ToDos(words[2]));
+                    taskList.addTask(new ToDos(words[2]));
                     if (words[1].equals("1"))
-                        taskList.set(taskList.size() - 1, taskList.get(taskList.size() - 1).markAsDone());
+                        taskList.finishTask(taskList.countTask() - 1);
                 }
                 else if (words[0].equals("deadline")) {
-                    taskList.add(new Deadline(words[2], rt.parse(words[3])));
+                    taskList.addTask(new Deadline(words[2], rt.parse(words[3])));
                     if (words[1].equals("1"))
-                        taskList.set(taskList.size() - 1, taskList.get(taskList.size() - 1).markAsDone());
+                        taskList.finishTask(taskList.countTask() - 1);
                 }
                 else if (words[0].equals("event")) {
-                    taskList.add(new Event(words[2], rt.parse(words[3])));
+                    taskList.addTask(new Event(words[2], rt.parse(words[3])));
                     if (words[1].equals("1"))
-                        taskList.set(taskList.size() - 1, taskList.get(taskList.size() - 1).markAsDone());
+                        taskList.finishTask(taskList.countTask() - 1);
                 }
                 line = br.readLine();
             }
@@ -172,15 +145,15 @@ public class Duke {
      * save the tasks data to the hard disk</p>
      * @param taskList the array list of tasks to be saved
      */
-    public static void saveData(ArrayList<Task> taskList) {
+    public static void saveData(TaskList taskList) {
         String output = "";
         int isDone;
         int indexOfDescriptionFront;
         int indexOfDescriptionBack;
 
 
-        for (int i = 0; i < taskList.size();i++) {
-            String taskStr = taskList.get(i).toString();
+        for (int i = 0; i < taskList.countTask();i++) {
+            String taskStr = taskList.getTask(i).toString();
 
 
 
