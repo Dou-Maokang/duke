@@ -1,3 +1,10 @@
+package duke.storage;
+
+import duke.task.Deadline;
+import duke.task.Event;
+import duke.task.TaskList;
+import duke.task.ToDos;
+
 import java.io.*;
 import java.text.SimpleDateFormat;
 

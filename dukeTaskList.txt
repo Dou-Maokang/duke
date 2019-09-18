@@ -1,3 +1,4 @@
-todo;0;work
 todo;1;read
 todo;1;dance
+todo;1;read
+todo;0;write

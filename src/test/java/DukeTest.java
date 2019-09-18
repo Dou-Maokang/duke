@@ -7,11 +7,4 @@ public class DukeTest {
     public void dummyTest() {
         assertEquals(2, 2);
     }
-
-    @Test
-    public void todoTest() {
-        assertEquals("[T][✗]Testing Duke todo", new ToDos("Testing Duke todo").toString());
-    }
-    
-
 }

@@ -1,4 +1,14 @@
-import java.util.*;
+package duke;
+
+import duke.dukeexception.DukeException;
+import duke.parser.Parser;
+import duke.storage.Storage;
+import duke.task.Deadline;
+import duke.task.Event;
+import duke.task.TaskList;
+import duke.task.ToDos;
+import duke.ui.Ui;
+
 import java.text.*;
 
 public class Duke {
@@ -40,7 +50,7 @@ public class Duke {
                     taskList.addTask(new ToDos(parser.getTodoTask()));
                     System.out.println("Got it. I've added this task:\n" + taskList.getTask(taskList.countTask() - 1));
                     System.out.printf("Now you have %d %s in the list.\n", taskList.countTask(),
-                            ((taskList.countTask() > 1) ? "tasks" : "task"));
+                            ((taskList.countTask() > 1) ? "tasks" : "duke/task"));
 
                     break;
                 case "deadline":
@@ -52,7 +62,7 @@ public class Duke {
                         taskList.addTask(new Deadline(parser.getDeadlineDescription(), parser.getDeadlineTime()));
                         System.out.println("Got it. I've added this task:\n" + taskList.getTask(taskList.countTask() - 1));
                         System.out.printf("Now you have %d %s in the list.\n", taskList.countTask(),
-                                ((taskList.countTask() > 1) ? "tasks" : "task"));
+                                ((taskList.countTask() > 1) ? "tasks" : "duke/task"));
                     }
                     break;
                 case "event":
@@ -64,7 +74,7 @@ public class Duke {
                         taskList.addTask(new Event(parser.getEventDescription(), parser.getEventTime()));
                         System.out.println("Got it. I've added this task:\n" + taskList.getTask(taskList.countTask() - 1));
                         System.out.printf("Now you have %d %s in the list.\n", taskList.countTask(),
-                                ((taskList.countTask() > 1) ? "tasks" : "task"));
+                                ((taskList.countTask() > 1) ? "tasks" : "duke/task"));
                     }
 
                     break;
